@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import LearnerRegForm from '../../Components/form/signup/Learner-Reg-Form';
 import RiderRegForm from '../../Components/form/signup/Rider-Reg-Form';
-import SignUpOption from './Type-Option-Box';
 
 function Signup() {
 
