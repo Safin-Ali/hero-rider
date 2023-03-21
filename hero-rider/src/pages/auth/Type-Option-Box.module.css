@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .container{
+        @apply flex flex-col gap-y-3 gap-x-5 w-[50%] mx-auto justify-center items-center max-h-screen min-h-screen;
+    }
+    .parent-box{
+        background: linear-gradient(#fff, #fff 50%, #2ecc71 50%, #2ecc71);
+        background-size: 100% 200%;
+        @apply shadow min-w-[50%] hover:text-white duration-300 p-5 rounded-md cursor-pointer flex gap-x-4 items-center justify-center
+    }
+    .parent-box:hover{
+        background-position: 100% 100%;
+    }
+    .image-white{
+        filter: brightness(0) invert(1);
+    }
+}
