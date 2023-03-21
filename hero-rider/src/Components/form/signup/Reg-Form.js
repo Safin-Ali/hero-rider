@@ -4,6 +4,8 @@ import PrimaryButton from '../../Button/Primary-Button';
 import inputStyle from '../input.module.css';
 import { IoIosEyeOff, IoIosEye } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
+import postData from '../../../hooks/postData';
+import { imageUpload } from '../../../hooks/imageUpload';
 
 function RegForm() {
 
@@ -13,8 +15,11 @@ function RegForm() {
 
   const {type} = useParams();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const imageReadyObj = await imageUpload(data);
+
+    const report = await postData(`/signup?role=${type}`,imageReadyObj);
+
   };
 
   const feildData = type === 'rider' ?
