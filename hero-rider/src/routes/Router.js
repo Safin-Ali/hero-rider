@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter,Route,Routes} from 'react-router-dom';
-import RegForm from '../Components/form/signup/Rider-Reg-Form';
+import RegForm from '../Components/form/signup/Reg-Form';
 import SignUpOption from '../pages/auth/Type-Option-Box';
 
 function Router () {
