@@ -1,24 +1,41 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PrimaryButton from '../../Button/Primary-Button';
 import inputStyle from '../input.module.css';
 import { IoIosEyeOff, IoIosEye } from 'react-icons/io';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import postData from '../../../hooks/postData';
 import { imageUpload } from '../../../hooks/imageUpload';
+import { UserData } from '../../../context/User.Context';
 
 function RegForm() {
 
   const { register, handleSubmit } = useForm();
 
+  const {userActiveData,load} = useContext(UserData);
+
   const [visibleBool, setVisibleBool] = useState(false);
+
+  const navigate = useNavigate();
 
   const {type} = useParams();
 
-  const onSubmit = async (data) => {
-    const imageReadyObj = await imageUpload(data);
+  if(load) return;
 
-    const report = await postData(`/signup?role=${type}`,imageReadyObj);
+  if(userActiveData) return <Navigate to={`/`} replace={true}></Navigate>
+
+
+  const onSubmit = async (data) => {
+    try {
+      const imageReadyObj = await imageUpload(data);
+
+      const report = await postData(`/signup?role=${type}`,imageReadyObj);
+
+      navigate(`/login`)
+
+    } catch (error) {
+      console.log(error.response.data.message)
+    }
 
   };
 
@@ -53,10 +70,10 @@ function RegForm() {
     { type: 'password', name: 'confirmPassword', label: 'Confirm password' },
   ];
 
-  const welcomeShortText = type === 'rider' ?
+  const welcomeShortText = type === ('rider' ?
   `We're excited to have you on board as a rider. Please take a moment to fill out our short form and get started on your next journey.`
   :
-  `learner! Let's create your account and get started. Fill out the simple form below to begin your learning journey. Let's get started!`
+  `learner! Let's create your account and get started. Fill out the simple form below to begin your learning journey. Let's get started!`);
 
   return (
     <section className={`flex justify-center items-center min-h-screen`}>
