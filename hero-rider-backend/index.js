@@ -4,11 +4,13 @@ const port = process.env.PORT || 5000;
 const cors = require('cors');
 const connectDB = require('./config/database');
 const registerRoute = require('./routes/auth/auth.api');
+const leassonPackgesRoute = require('./routes/leasson-packages/leasson.packages.api');
 
 // middleware
 app.use(cors());
 app.use(express.json());
 app.use(`/api`,registerRoute);
+app.use(`/api`,leassonPackgesRoute);
 connectDB();
 
 
