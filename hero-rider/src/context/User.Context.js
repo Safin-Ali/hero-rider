@@ -20,8 +20,6 @@ function UserContext ({children}) {
 
   const authorization = getCookieValue(authCookie,`auth_jwt`);
 
-  console.log(userActiveData)
-
   useEffect(()=>{
     instance.get(`/user-persist`,{headers: {authorization}})
     .then(res => {

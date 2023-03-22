@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { UserData } from '../../context/User.Context';
 import { admin, learner, rider } from './user.role.type';
 import LearnerPage from '../home/Learner.Page';
