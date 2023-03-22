@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .small-tooltip{
+        @apply bg-gray-900 duration-200 relative px-2 py-1 text-white rounded-lg
+    }
+    .small-tooltip-arrow{
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 10px;
+        top: -10%;
+        transform: translateX(-60%) rotate(45deg);
+        z-index: -1;
+        left: 55%;
+        @apply bg-gray-900
+    }
+}
