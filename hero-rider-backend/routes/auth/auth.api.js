@@ -16,7 +16,7 @@ function verifyJWT(req, res, next) {
     const authorization = req.headers.authorization;
 
     // // when req authorization code not found or null
-    if (!authorization) return res.status(401).send(`Go to your Grandmother house`);
+    if (!authorization) return res.status(401).send({message:`Go to your Grandmother house`});
 
     const encryptToken = authorization.split(' ')[1];
     jwt.verify(encryptToken, process.env.JWT_SECRET_TOKEN, (err, decryptCode) => {
@@ -35,7 +35,7 @@ function generateToken(userData) {
     };
     const secret = process.env.JWT_SECRET_TOKEN;
     return jwt.sign(userData, secret, expireTime);
-}
+};
 
 route.post('/signup', async (req, res) => {
     try {
