@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const riderUserSchema = new mongoose.Schema({
     fullName: String,
+    age: Number,
     email: String,
+    phone: Number,
     address: String,
     area: String,
     carModel: String,
