@@ -4,7 +4,7 @@
 
 @layer components {
     .small-tooltip{
-        @apply bg-gray-900 duration-200 relative px-2 py-1 text-white rounded-lg
+        @apply bg-gray-900 transition-opacity duration-200 relative px-2 py-1 text-white rounded-lg
     }
     .small-tooltip-arrow{
         content: '';

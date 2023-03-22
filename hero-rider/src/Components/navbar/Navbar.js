@@ -31,7 +31,7 @@ function Navbar() {
               <NavLink className={navbarStyle['nav-item']}>About</NavLink>
             </div>
 
-            <div onClick={() => setToolTipBool(true)}
+            <div style={{backgroundImage: `url(${userActiveData?.userAvatar})`}} onClick={() => setToolTipBool(!toolTipBool)}
               className={navbarStyle['user-avatar']}>
 
               <SmallToolTip
@@ -51,5 +51,4 @@ function Navbar() {
   );
 };
 
-Navbar.propTypes = {}
 export default Navbar;

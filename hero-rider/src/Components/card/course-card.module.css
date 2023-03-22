@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .card-container{
+        @apply bg-white capitalize shadow-md px-3 pt-3 pb-2 rounded-xl ;
+    }
+    .card-thumb{
+        @apply bg-cover relative w-full h-[180px] rounded-lg;
+    }
+    .card-thumb span{
+        @apply absolute text-sm bottom-5 left-3 bg-white py-1.5 shadow-sm px-3 font-medium rounded-full;
+    }
+    .card-info{
+        @apply flex h-full items-center justify-center gap-x-6;
+    }
+    .card-info h4 {
+        @apply text-xl font-semibold
+    }
+    .card-info span {
+        @apply font-medium text-gray-500
+    }
+    .guider-avatar{
+        @apply w-10 h-10 bg-cover rounded-full border border-gray-500
+    }
+    .leason-info{
+        @apply grid grid-cols-2 gap-5 md:grid-cols-3 p-3 items-center justify-center;
+    }
+    .leason-info div {
+        @apply flex text-gray-500 bg-[#f6f6f6] gap-2 p-0.5 py-1 rounded-full items-center justify-center;
+    }
+}
