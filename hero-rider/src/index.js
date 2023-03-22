@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import UserContext from './context/User.Context';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Router from './routes/Router';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Router>
-  </Router>
+  <UserContext>
+    <Router>
+    </Router>
+  </UserContext>
 );
 
 // If you want to start measuring performance in your app, pass a function
