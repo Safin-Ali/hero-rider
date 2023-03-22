@@ -1,16 +1,22 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import typeOptionBox from './Type-Option-Box.module.css';
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { UserData } from '../../context/User.Context';
 
 function SignUpOption() {
 
+  const {userActiveData,load} = useContext(UserData);
+
   const navigate = useNavigate();
 
-  const handleNavigate = (path) => navigate(`/signup/${path}`)
+  const handleNavigate = (path) => navigate(`/signup/${path}`);
 
   const [firstOption, setFirstOption] = useState(false);
   const [secondOption, setSecondOption] = useState(false);
+
+  if(load) return;
+
+  if(userActiveData) return <Navigate to={`/`} replace={true}></Navigate>
 
   return (
     <section className={typeOptionBox['container']}>
