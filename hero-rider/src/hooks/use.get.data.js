@@ -4,7 +4,8 @@ import instance from '../api/axios.config';
 
 function useGetData (
     path,
-    header
+    header,
+    dependencies = undefined
 ) {
 
     const [data,setData] = useState([]);
@@ -13,7 +14,7 @@ function useGetData (
         instance.get(path,{headers:header})
         .then(res => setData(res.data))
         .catch(err => console.log(err.response.data.message));
-    },[])
+    },[dependencies])
 
     return [data,setData];
 };

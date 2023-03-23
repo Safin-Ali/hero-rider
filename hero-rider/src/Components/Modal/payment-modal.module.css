@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .modal-container{
+        @apply fixed w-[30%] duration-[700ms] bg-white z-[10] shadow h-[70%] rounded-3xl mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+    }
+    .modal-blur{
+        @apply bg-black/50 w-full h-screen top-0 left-0 fixed z-[9]
+    }
+
+    .input-label{
+        @apply capitalize block mb-2 text-sm font-medium text-gray-900
+    }
+    .input-feild{
+        @apply bg-gray-50 py-2.5 px-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full
+    }
+    .payment-feild{
+        @apply bg-gray-50 py-2.5 px-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full
+    }
+    .position-center{
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+    }
+}
