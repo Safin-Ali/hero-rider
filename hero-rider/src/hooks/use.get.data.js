@@ -8,7 +8,7 @@ function useGetData (
     dependencies = undefined
 ) {
 
-    const [data,setData] = useState([]);
+    const [data,setData] = useState(null);
 
     useEffect(()=>{
         instance.get(path,{headers:header})
