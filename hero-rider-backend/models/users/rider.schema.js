@@ -18,6 +18,7 @@ const riderUserSchema = new mongoose.Schema({
     vehicleType: String,
     userRole: String,
     block: Boolean,
-})
+    accessCourses: [String]
+});
 
 module.exports = riderUserSchema

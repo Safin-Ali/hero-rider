@@ -3,6 +3,7 @@ const route = express.Router();
 const Rider = require('../../models/users/users.model');
 const bcrypt = require('bcrypt');
 const {generateToken,verifyJWT,hashPassword} = require('../../helpers/auth.helper');
+const LeassonPackages = require('../../models/./leasson-packages/leasson.packages.model');
 
 route.post('/signup', async (req, res) => {
     try {
@@ -14,7 +15,8 @@ route.post('/signup', async (req, res) => {
             ...req.body,
             userRole,
             block: false,
-            password: hashPassString
+            password: hashPassString,
+            accessCourses: []
         };
 
         const validateEmail = await Rider.findOne({email: bodyData.email}).count();
@@ -48,7 +50,8 @@ route.post(`/login`, async (req, res) => {
             userEmail: userData.email,
             userRole: userData.userRole,
             userBlock: userData.block,
-            userAvatar: userData.profilePicture
+            userAvatar: userData.profilePicture,
+            courses: userData.accessCourses,
         });
 
     } catch (error) {
@@ -66,7 +69,8 @@ route.get(`/user-persist`, verifyJWT, async (req, res) => {
             userEmail: userData.email,
             userRole: userData.userRole,
             userBlock: userData.block,
-            userAvatar: userData.profilePicture
+            userAvatar: userData.profilePicture,
+            courses: userData.accessCourses,
         });
 
     } catch (error) {
@@ -74,5 +78,19 @@ route.get(`/user-persist`, verifyJWT, async (req, res) => {
         res.status(500).send({message: `Internal Server Error`});
     }
 });
+
+route.patch('/update-user',verifyJWT,async (req,res)=>{
+    try{
+        const {packagesId,email} = req.body;
+        const updateUser = {$push: { accessCourses:packagesId } };
+        await Rider.updateOne({email: email},updateUser);
+        await LeassonPackages.updateOne({_id: packagesId},{ $inc: { totalBuyPurchase: 1 } }, { new: true });
+        res.send({acknowledge: true});
+
+    } catch(error){
+        console.log(err.message);
+        res.status(500).send({message: `Internal Server Error`})
+    }
+})
 
 module.exports = route;
