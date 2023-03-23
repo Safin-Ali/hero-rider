@@ -14,7 +14,7 @@ function SignIn() {
 
     const [visibleBool, setVisibleBool] = useState(false);
 
-    const {userActiveData,load,setUserActiveData} = useContext(UserData);
+    const {userActiveData,load,notifySuccess,notifyError,setUserActiveData} = useContext(UserData);
 
     const { register, handleSubmit } = useForm();
 
@@ -22,24 +22,24 @@ function SignIn() {
 
     if(load) return;
 
-    console.log(userActiveData)
-
     if(userActiveData) return <Navigate to={`/`} replace={true}></Navigate>;
 
     const onSubmit = async (data) => {
         try {
             const userInfo = await postData(`/login`,data);
             document.cookie =`auth_jwt=Bearer ${userInfo.authroizationToken}; expire=${createRfcTime(30)} path=/`;
-            return setUserActiveData(userInfo)
+            notifySuccess(`Login Success`)
+            .then(() => setUserActiveData(userInfo));
 
         } catch (error) {
-            console.log(error.response.data.message)
+            notifyError(error.response.data.message)
+            .then(() => {});
         }
     };
 
     return (
         <>
-            <section className={`flex justify-center items-center min-h-screen`}>
+            <section className={`flex bg-white justify-center items-center min-h-screen`}>
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className={`my-2`}>

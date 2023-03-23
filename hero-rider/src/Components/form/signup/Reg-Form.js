@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import postData from '../../../hooks/postData';
 import { imageUpload } from '../../../hooks/imageUpload';
 import { UserData } from '../../../context/User.Context';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function RegForm() {

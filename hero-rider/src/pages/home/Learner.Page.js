@@ -30,7 +30,6 @@ function LearnerPage() {
         text: action.payload.text,
       };
     };
-
     return {
       ...state,
       visible: false,

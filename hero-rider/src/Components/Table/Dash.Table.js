@@ -1,51 +1,86 @@
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import tableStyle from './table.module.css';
+import TableRow from './Table.Row';
+import PropTypes  from 'prop-types';
 
-function DashTable() {
+function DashTable({
+    data,
+    callback,
+}) {
+
+    const [checkedUser,setCheckedUser] = useState([]);
+    const [allMark,setAllMark] = useState(false);
+
+    const handleCheck = (id,type) => {
+        if(type === 'all'){
+            const newArr = [];
+            data.forEach(user => newArr.push(user._id));
+            setAllMark(true);
+            return setCheckedUser(newArr);
+        };
+
+        if(type === 'none') {
+            setCheckedUser([])
+            return setAllMark(false);
+        } ;
+
+        if(type) return setCheckedUser(prev => [...prev,id]);
+        return setCheckedUser(prev => prev.filter(item => item !== id));
+    };
+
+    useEffect(()=>{
+        if(!checkedUser.length) setAllMark(false);
+        if(data.length && data.length ===  checkedUser.length) setAllMark(true);
+        return () => {}
+    },[checkedUser])
 
     return (
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <div className={tableStyle['table-head-container']}>
+            <table>
+                <thead>
                     <tr>
-                        <th scope="col" className="p-4">
+                        <th scope="col">
                             <div className="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                <label for="checkbox-all-search" className="sr-only">checkbox</label>
+                                <input
+                                    checked={allMark}
+                                 onChange={()=>handleCheck('',!allMark ? 'all' : 'none')}
+                                 type="checkbox" />
                             </div>
                         </th>
-                        <th scope="col" className="px-6 py-3">
-                            Product name
+                        <th scope="col" className="">
+                            User Name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Color
+                            User Email
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Category
+                            User Phone
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Accesories
+                            User Avatar
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Available
+                            User Status
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Price
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Weight
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Action
+                            suspicious behavior
                         </th>
                     </tr>
                 </thead>
                 <tbody>
+                    {
+                        data?.map(user => <TableRow allMark={allMark} onCheck={handleCheck} key={user._id} data={user} />)
+                    }
                 </tbody>
             </table>
         </div>
-
     );
 }
 
-export default DashTable;
+DashTable.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object),
+    callback: PropTypes.func
+}
+
+export default memo(DashTable);
