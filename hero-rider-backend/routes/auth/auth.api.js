@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const Rider = require('../../models/users/users.model');
+const User = require('../../models/users/users.model');
 const bcrypt = require('bcrypt');
 const {generateToken,verifyJWT,hashPassword} = require('../../helpers/auth.helper');
 const LeassonPackages = require('../../models/./leasson-packages/leasson.packages.model');
@@ -19,11 +19,11 @@ route.post('/signup', async (req, res) => {
             accessCourses: []
         };
 
-        const validateEmail = await Rider.findOne({email: bodyData.email}).count();
+        const validateEmail = await User.findOne({email: bodyData.email}).count();
 
         if(validateEmail > 0) return res.status(409).send({message: `already have account`});
 
-        await new Rider(bodyData).save();
+        await new User(bodyData).save();
 
         return res.send({ acknowledge: true });
 
@@ -36,12 +36,15 @@ route.post('/signup', async (req, res) => {
 route.post(`/login`, async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userData = await Rider.findOne({ email: email });
+        const userData = await User.findOne({ email: email });
+
+        if(!userData) return res.status(404).send({message:`Account Not Found.`});
+
         const encryptPass = userData.password;
 
         const decryptResult = await bcrypt.compare(password, encryptPass);
 
-        if (!decryptResult) return res.status(400).send({ message: `Wrong Password` })
+        if (!decryptResult) return res.status(403).send({ message: `Wrong Password` })
 
         const authroizationToken = generateToken({ email, password, _id: userData['_id'] });
 
@@ -63,7 +66,7 @@ route.post(`/login`, async (req, res) => {
 route.get(`/user-persist`, verifyJWT, async (req, res) => {
     try {
         const {email,_id} = req.decryptCode;
-        const userData = await Rider.findOne({ email, _id});
+        const userData = await User.findOne({ email, _id});
 
         res.send({
             userEmail: userData.email,
@@ -83,7 +86,7 @@ route.patch('/update-user',verifyJWT,async (req,res)=>{
     try{
         const {packagesId,email} = req.body;
         const updateUser = {$push: { accessCourses:packagesId } };
-        await Rider.updateOne({email: email},updateUser);
+        await User.updateOne({email: email},updateUser);
         await LeassonPackages.updateOne({_id: packagesId},{ $inc: { totalBuyPurchase: 1 } }, { new: true });
         res.send({acknowledge: true});
 

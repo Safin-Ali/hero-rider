@@ -6,6 +6,7 @@ const connectDB = require('./config/database');
 const registerRoute = require('./routes/auth/auth.api');
 const leassonPackgesRoute = require('./routes/leasson-packages/leasson.packages.api');
 const paymentRoute = require('./routes/payment/payment.api');
+const adminRoute = require('./routes/admin/admin.api');
 
 // middleware
 app.use(cors());
@@ -13,8 +14,10 @@ app.use(express.json());
 app.use(`/api`,registerRoute);
 app.use(`/api`,leassonPackgesRoute);
 app.use(`/api`,paymentRoute);
-connectDB();
+app.use(`/api/admin`,adminRoute);
 
+// connect data base
+connectDB();
 
 app.get('/',(req,res)=>{
     res.send(`<div>
