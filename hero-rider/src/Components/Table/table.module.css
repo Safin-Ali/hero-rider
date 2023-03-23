@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .table-row{
+        @apply bg-white border-b hover:bg-gray-50
+    }
+}

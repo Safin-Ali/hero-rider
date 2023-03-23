@@ -5,12 +5,14 @@ import CoursePackageCard from '../../Components/card/Course.Package.Card';
 import learnerStyle from './style.module.css';
 import PaymentModal from '../../Components/Modal/Payment.Modal';
 import { UserData } from '../../context/User.Context';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LearnerPage() {
 
   const authToken = getAuthToken();
 
-  const {handleRerender} = useContext(UserData)
+  const {handleRerender,render} = useContext(UserData)
 
   const intialState = {
     visible: false,
@@ -40,7 +42,7 @@ function LearnerPage() {
 
   const [modalState, modalDispatch] = useReducer(modalReducer,intialState);
 
-  const [data] = useGetData(`/leasson-packages`, { authorization: authToken });
+  const [data] = useGetData(`/leasson-packages`, { authorization: authToken },render);
 
   return (
     <>
@@ -52,6 +54,18 @@ function LearnerPage() {
         </div>
       </section>
       <PaymentModal callback={handleRerender} closeModal={modalDispatch} amount={modalState.amount} text={modalState.text} prodId={modalState.prodId} visible={modalState.visible}></PaymentModal>
+      <ToastContainer
+        position="top-center"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover={false}
+            theme="light"
+      />
     </>
   );
 };

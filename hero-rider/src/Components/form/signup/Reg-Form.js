@@ -7,6 +7,8 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import postData from '../../../hooks/postData';
 import { imageUpload } from '../../../hooks/imageUpload';
 import { UserData } from '../../../context/User.Context';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RegForm() {
 
@@ -76,111 +78,125 @@ function RegForm() {
   `learner! Let's create your account and get started. Fill out the simple form below to begin your learning journey. Let's get started!`);
 
   return (
-    <section className={`flex justify-center items-center min-h-screen`}>
+    <>
+      <section className={`flex justify-center items-center min-h-screen`}>
 
-      <div className={`max-w-[50%]`}>
+        <div className={`max-w-[50%]`}>
 
-        <div className={`my-5`}>
-          <p className={`font-semibold`}><span className={`text-purple-600 text-2xl`}>Welcome! </span>{welcomeShortText}</p>
-        </div>
+          <div className={`my-5`}>
+            <p className={`font-semibold`}><span className={`text-purple-600 text-2xl`}>Welcome! </span>{welcomeShortText}</p>
+          </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={`grid justify-center items-center gap-6 mb-6 md:grid-cols-2`}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={`grid justify-center items-center gap-6 mb-6 md:grid-cols-2`}>
 
-            {
-              feildData.map((obj, idx) => {
+              {
+                feildData.map((obj, idx) => {
 
-                if (obj.type === 'file') {
-                  return (
-                    <Fragment key={idx}>
+                  if (obj.type === 'file') {
+                    return (
+                      <Fragment key={idx}>
 
-                      <div>
+                        <div>
 
-                        <label className={inputStyle['file-label']} name={obj.name} htmlFor={obj.name}>Upload {obj.label}</label>
+                          <label className={inputStyle['file-label']} name={obj.name} htmlFor={obj.name}>Upload {obj.label}</label>
 
-                        <input className={inputStyle['file-feild']} {...register(obj.name)} id={obj.name} type="file" required={true} />
-                      </div>
-
-                    </Fragment>
-                  );
-
-                } else if (obj.type === 'radio') {
-
-                  return (
-                    <Fragment key={idx}>
-                      <div>
-
-                        <label className={inputStyle['input-label']} name={obj.name} htmlFor={obj.name}>Select {obj.label}</label>
-
-                        <div className={`flex justify-center gap-x-5`}>
-                          {
-                            obj.radioOptions.map((option, indexRadio) => (
-                              <div key={indexRadio} className={inputStyle['radio-container']}>
-
-                                <input id={obj.name + option} {...register(obj.name)} type="radio" value={option} className={inputStyle['radio-feild']} required={true} />
-                                <label htmlFor={obj.name + option} className={inputStyle['radio-label']}>{option}</label>
-                              </div>
-                            ))
-                          }
-
+                          <input className={inputStyle['file-feild']} {...register(obj.name)} id={obj.name} type="file" required={true} />
                         </div>
-                      </div>
-                    </Fragment>
-                  );
 
-                } else if (obj.type === 'password') {
+                      </Fragment>
+                    );
 
-                  return (
+                  } else if (obj.type === 'radio') {
 
-                    <Fragment key={idx}>
-                      <div>
+                    return (
+                      <Fragment key={idx}>
+                        <div>
 
-                        <label className={inputStyle[`input-label`]}>{obj.label}</label>
+                          <label className={inputStyle['input-label']} name={obj.name} htmlFor={obj.name}>Select {obj.label}</label>
 
-                        <div className={`relative`}>
-
-                          <input placeholder={`Enter Your ${obj.label}`} type={visibleBool ? 'text' : 'password'} className={inputStyle[`input-feild`]} {...register(obj.name,)} minLength='6' required={true} />
-
-                          <div onClick={()=>setVisibleBool(!visibleBool)} className={`absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2`}>
+                          <div className={`flex justify-center gap-x-5`}>
                             {
-                              visibleBool
-                                ?
-                                <IoIosEyeOff size={18} />
-                                :
-                                <IoIosEye size={18} />
+                              obj.radioOptions.map((option, indexRadio) => (
+                                <div key={indexRadio} className={inputStyle['radio-container']}>
+
+                                  <input id={obj.name + option} {...register(obj.name)} type="radio" value={option} className={inputStyle['radio-feild']} required={true} />
+                                  <label htmlFor={obj.name + option} className={inputStyle['radio-label']}>{option}</label>
+                                </div>
+                              ))
                             }
+
+                          </div>
+                        </div>
+                      </Fragment>
+                    );
+
+                  } else if (obj.type === 'password') {
+
+                    return (
+
+                      <Fragment key={idx}>
+                        <div>
+
+                          <label className={inputStyle[`input-label`]}>{obj.label}</label>
+
+                          <div className={`relative`}>
+
+                            <input placeholder={`Enter Your ${obj.label}`} type={visibleBool ? 'text' : 'password'} className={inputStyle[`input-feild`]} {...register(obj.name,)} minLength='6' required={true} />
+
+                            <div onClick={()=>setVisibleBool(!visibleBool)} className={`absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2`}>
+                              {
+                                visibleBool
+                                  ?
+                                  <IoIosEyeOff size={18} />
+                                  :
+                                  <IoIosEye size={18} />
+                              }
+                            </div>
+
                           </div>
 
                         </div>
+                      </Fragment>
+                    );
 
-                      </div>
-                    </Fragment>
-                  );
+                  } else {
 
-                } else {
+                    return (
 
-                  return (
+                      <Fragment key={idx}>
+                        <div className={`relative`}>
+                          <label className={inputStyle[`input-label`]}>{obj.label}</label>
+                          <input placeholder={`Enter Your ${obj.label}`} type={obj.type} className={inputStyle[`input-feild`]} {...register(obj.name,)} />
+                        </div>
+                      </Fragment>
+                    );
 
-                    <Fragment key={idx}>
-                      <div className={`relative`}>
-                        <label className={inputStyle[`input-label`]}>{obj.label}</label>
-                        <input placeholder={`Enter Your ${obj.label}`} type={obj.type} className={inputStyle[`input-feild`]} {...register(obj.name,)} />
-                      </div>
-                    </Fragment>
-                  );
+                  }
 
-                }
+                })
+              }
 
-              })
-            }
+            </div>
+            <PrimaryButton middle={true}></PrimaryButton>
+          </form>
 
-          </div>
-          <PrimaryButton middle={true}></PrimaryButton>
-        </form>
+        </div>
 
-      </div>
-
-    </section>
+      </section>
+      <ToastContainer
+        position="top-center"
+              autoClose={1500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover={false}
+              theme="light"
+      />
+    </>
   );
 };
 

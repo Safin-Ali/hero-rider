@@ -4,6 +4,7 @@ import { getCookieValue } from '../hooks/find-cookie';
 import instance from '../api/axios.config';
 import { createRfcTime } from '../hooks/rfc.time.format';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const UserData = createContext();
 
@@ -24,6 +25,37 @@ function UserContext ({children}) {
 
   const authorization = getCookieValue(authCookie,`auth_jwt`);
 
+  const notifySuccess = (string = 'Wow! Success') => {
+    toast.success(string, {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    return new Promise(resolve => {
+      setTimeout(()=>resolve(true),2000)
+    })
+  };
+  const notifyError = (string = 'Opps. Error Found') => {
+    toast.error(string, {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    return new Promise(resolve => {
+      setTimeout(()=>resolve(true),2000)
+    })
+  };
+
   useEffect(()=>{
     instance.get(`/user-persist`,{headers: {authorization}})
     .then(res => {
@@ -43,7 +75,10 @@ function UserContext ({children}) {
     setUserActiveData,
     load,
     handleLogout,
-    handleRerender
+    handleRerender,
+    notifyError,
+    notifySuccess,
+    render
   }
 
  return (

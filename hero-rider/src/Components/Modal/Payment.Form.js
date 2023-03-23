@@ -14,10 +14,8 @@ import instance from '../../api/axios.config';
 
 function PaymentForm(props) {
 
-  const { userActiveData } = useContext(UserData);
+  const { userActiveData,notifySuccess,notifyError } = useContext(UserData);
   const [processing, setProcessing] = useState(false);
-  const [success, setSucceeded] = useState(false);
-  const [error, setError] = useState(null);
 
   const {
     amount,
@@ -46,7 +44,8 @@ function PaymentForm(props) {
 
     if (error) {
       setProcessing(false)
-      setError(error.message);
+      notifyError(error.message)
+      .then(() => setProcessing(false));
     } else {
 
       const { clientSecret } = await postData('/payment-intent', {
@@ -62,8 +61,8 @@ function PaymentForm(props) {
       });
 
       if (payload.error) {
-        setError(`Payment failed ${payload.error.message}`);
-        setProcessing(false);
+        notifyError(`Payment failed ${payload.error.message}`)
+        .then(() => setProcessing(false));
       } else {
 
         instance.patch(`/update-user`,{
@@ -72,18 +71,22 @@ function PaymentForm(props) {
         },{headers: {authorization: authToken}})
         .then(res => {
           if(res.data.acknowledge) {
-            setError(null);
             setProcessing(false);
-            handleModalClose();
-            return callback()
+
+            notifySuccess(`Payment Successfull. Thank You`)
+            .then(()=>{
+              handleModalClose();
+              return callback()
+            })
+
           };
         })
         .catch(error => {
-          setError(error.response.data.message)
-          return setProcessing(false);
+          notifyError(error.response.data.message)
+          .then(() => setProcessing(false));
         })
       }
-    }
+    };
   };
 
   function handleModalClose() {
