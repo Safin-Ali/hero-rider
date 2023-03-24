@@ -56,6 +56,22 @@ function UserContext ({children}) {
     })
   };
 
+  const notifyWarning = (string = 'Opps. Error Found') => {
+    toast.warn(string, {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    return new Promise(resolve => {
+      setTimeout(()=>resolve(true),2000)
+    })
+  };
+
   useEffect(()=>{
     instance.get(`/user-persist`,{headers: {authorization}})
     .then(res => {
@@ -63,7 +79,7 @@ function UserContext ({children}) {
       return setLoaded(false);
     })
     .catch(err => {
-      console.log(err.message);
+      notifyError(err.message);
       setLoaded(false);
       return <Navigate to={'/login'}></Navigate>
     })
@@ -78,7 +94,8 @@ function UserContext ({children}) {
     handleRerender,
     notifyError,
     notifySuccess,
-    render
+    render,
+    notifyWarning
   }
 
  return (
