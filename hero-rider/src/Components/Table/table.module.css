@@ -4,7 +4,7 @@
 
 @layer components {
     .table-head-container{
-        @apply relative overflow-x-auto shadow-md sm:rounded-t-lg;
+        @apply relative overflow-auto h-[90%] sm:rounded-t-lg;
     }
     .table-head-container table{
         @apply w-full text-sm text-left text-gray-500;

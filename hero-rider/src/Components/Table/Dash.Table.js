@@ -8,10 +8,11 @@ import { UserData } from '../../context/User.Context';
 
 function DashTable({
     data,
+    handleAgeFilter,
     callback,
 }) {
 
-    const {notifyWarning,notifySuccess} = useContext(UserData)
+    const { notifyWarning, notifySuccess } = useContext(UserData);
 
     const [checkedUser, setCheckedUser] = useState([]);
     const [allMark, setAllMark] = useState(false);
@@ -32,21 +33,23 @@ function DashTable({
         if (type) return setCheckedUser(prev => [...prev, id]);
         return setCheckedUser(prev => prev.filter(item => item !== id));
     };
-    
+
     const authToken = getAuthToken();
 
     const handleBlockAction = async (type) => {
-        const res = await instance.patch(`/admin/users-access`,{userList:checkedUser,actionType: type},{headers:{ authorization: authToken }});
+        const res = await instance.patch(`/admin/users-access`, { userList: checkedUser, actionType: type }, { headers: { authorization: authToken } });
 
-        if(res.data.acknowledged && !res.data.modifiedCount){
+        if (res.data.acknowledged && !res.data.modifiedCount) {
             notifyWarning(`User Already ${type}`)
         }
-        if(res.data.acknowledged && res.data.modifiedCount){
+        if (res.data.acknowledged && res.data.modifiedCount) {
             notifySuccess(`User Updated`)
         }
 
         return callback();
     };
+
+    console.log(data)
 
     useEffect(() => {
         if (!checkedUser.length) setAllMark(false);
@@ -82,6 +85,9 @@ function DashTable({
                                 User Avatar
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                User Age
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 User Status
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -91,20 +97,32 @@ function DashTable({
                     </thead>
                     <tbody>
                         {
-                            data?.map(user => <TableRow allMark={allMark} onCheck={handleCheck} key={user._id} data={user} />)
+                                data.map(user => <TableRow allMark={allMark} onCheck={handleCheck} key={user._id} data={user} />)
                         }
                     </tbody>
                 </table>
-
-                <div className={`px-5 py-2`}>
-                    {/* action button here */}
-                    <button onClick={()=>handleBlockAction('block')}
-                    className={`px-3 mr-5 py-1.5 rounded-md text-white ${!checkedUser.length ? 'opacity-40' : 'opacity-100'} font-medium bg-red-700`} disabled={!checkedUser.length}>Block</button>
-
-                    <button onClick={()=>handleBlockAction('active')}
-                    className={`px-3 ml-5 py-1.5 rounded-md text-white ${!checkedUser.length ? 'opacity-40' : 'opacity-100'} font-medium bg-green-700`} disabled={!checkedUser.length}>Active</button>
-                </div>
             </div>
+            <div className={`px-5 py-2 flex items-center gap-10`}>
+                    {/* action button here */}
+
+                    <div>
+                        <button onClick={() => handleBlockAction('block')}
+                            className={`px-3 py-1.5 rounded-md text-white ${!checkedUser.length ? 'opacity-40' : 'opacity-100'} font-medium bg-red-700`} disabled={!checkedUser.length}>Block</button>
+                    </div>
+
+                    <div>
+                        <button onClick={() => handleBlockAction('active')}
+                            className={`px-3 py-1.5 rounded-md text-white ${!checkedUser.length ? 'opacity-40' : 'opacity-100'} font-medium bg-green-700`} disabled={!checkedUser.length}>Active</button>
+                    </div>
+
+                    <div>
+                        <select onChange={handleAgeFilter} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-3 p-2.5">
+                            <option value={'00-00'}>Choose Age Range</option>
+                            <option value={"18-25"}>18-25</option>
+                            <option value={"26-30"}>26-30</option>
+                        </select>
+                    </div>
+                </div>
         </>
     );
 }

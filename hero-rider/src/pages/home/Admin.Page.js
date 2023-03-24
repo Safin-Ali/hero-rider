@@ -11,29 +11,49 @@ import PaginationWrapper from '../../Components/pagination/Pagination.Wrapper';
 function AdminPage() {
 
   const { userActiveData } = useContext(UserData);
-  const [count, setCount] = useState(0);
-  const [reFetch,setReFetch] = useState(false);
+  const [queryObj, setQueryObj] = useState({
+    count: 0,
+    ageFrom: 0,
+    ageTo: 0,
+    search: ''
+  });
+
+
+  const [reFetch, setReFetch] = useState(false);
 
   const navigate = useNavigate();
 
   const authToken = getAuthToken();
 
-  const [usersData] = useGetData(`/admin/get-users?count=${count}`, { authorization: authToken },reFetch);
+  const queryURL = `/admin/get-users?count=${queryObj.count}&ageFrom=${queryObj.ageFrom}&ageTo=${queryObj.ageTo}&search=${queryObj.search}`
+
+  const [usersData] = useGetData(queryURL, { authorization: authToken }, reFetch);
 
   const handlepagination = (num) => {
-    setCount(num*5)
+    setQueryObj({ ...queryObj, count: num * 10 })
     return setReFetch(!reFetch)
   };
 
-
   if (userActiveData.userRole !== 'admin') return navigate(`/*`);
 
-  if(!usersData) return <p>loading</p>
+  if (!usersData) return <p>loading</p>
+
+  const handleAgeFilter = (e) => {
+    const targetVal = e.target.value.split('-');
+    const from = parseInt(targetVal[0]);
+    const to = parseInt(targetVal[1]);
+    setQueryObj({ ...queryObj, ageFrom: from, ageTo: to });
+    return setReFetch(!reFetch);
+  };
+
+  const handleSearchFeild = () => {
+
+  }
 
   return (
     <>
-      <section className={`container mx-auto my-5`}>
-        <DashTable callback={()=>setReFetch(!reFetch)} data={usersData?.users}></DashTable>
+      <section className={`container sm:rounded-t-lg shadow-md h-[calc(100vh-105px)] pb-3 overflow-hidden mx-auto my-5`}>
+        <DashTable handleAgeFilter={handleAgeFilter} callback={() => setReFetch(!reFetch)} data={usersData?.users}></DashTable>
       </section>
       <ToastContainer
         position="top-center"
@@ -47,7 +67,7 @@ function AdminPage() {
         pauseOnHover={false}
         theme="light"
       />
-      <PaginationWrapper dataLeng={usersData?.count || 0} perPage={5} callBackFunc={handlepagination}/>
+      <PaginationWrapper dataLeng={usersData?.count || 0} perPage={10} callBackFunc={handlepagination} />
     </>
   );
 };

@@ -11,7 +11,8 @@ function TableRow({ data,onCheck, allMark}) {
         userRole,
         block,
         phone,
-        profilePicture
+        profilePicture,
+        age
     } = data;
 
     const [check,setCheck] = useState(false);
@@ -36,7 +37,7 @@ function TableRow({ data,onCheck, allMark}) {
             <th scope="row">
                 {fullName}
             </th>
-            <td>
+            <td className={`normal-case`}>
                 {email}
             </td>
             <td >
@@ -44,6 +45,9 @@ function TableRow({ data,onCheck, allMark}) {
             </td>
             <td>
                 <div style={{backgroundImage:`url(${profilePicture})`}} className={tableStyle['tbody-avatar']}></div>
+            </td>
+            <td className={`font-semibold`}>
+                {age}
             </td>
             <td>
                 {

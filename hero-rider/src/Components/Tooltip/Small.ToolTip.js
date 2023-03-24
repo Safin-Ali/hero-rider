@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import smallToolTip from './tooltip.module.css'
 
 function SmallToolTip({
-    children, callback = () => {},
+    children,
+    callback = () => {},
     visible = false
 }) {
 
