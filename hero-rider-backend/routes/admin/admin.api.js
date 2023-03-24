@@ -15,11 +15,15 @@ route.get(`/get-users`,verifyJWT, async (req,res)=>{
     }
 });
 
-route.post(`/users-block`,verifyJWT, async (req,res)=>{
+route.patch(`/users-access`,verifyJWT, async (req,res)=>{
     try {
-        const userList = req.body.userList;
-        const result = await User.deleteMany({_id: {$in: userList}});
+        const {userList,actionType} = req.body;
+        const accessBool = actionType === 'block' ? true : false;
+
+        const result = await User.updateMany({_id: {$in: userList}},{block:accessBool});
+        
         res.send(result);
+
     } catch (error) {
         console.log(error);
         res.status(500).send(`Internal Server Error`);
