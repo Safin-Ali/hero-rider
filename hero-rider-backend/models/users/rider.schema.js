@@ -4,7 +4,7 @@ const riderUserSchema = new mongoose.Schema({
     fullName: String,
     age: Number,
     email: String,
-    phone: Number,
+    phone: String,
     address: String,
     area: String,
     carModel: String,
