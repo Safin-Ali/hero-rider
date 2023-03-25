@@ -21,7 +21,7 @@ route.post('/signup', async (req, res) => {
 
         const validateEmail = await User.findOne({email: bodyData.email}).count();
 
-        if(validateEmail > 0) return res.status(409).send({message: `already have account`});
+        if(validateEmail > 0) return res.status(409).send({message: `Already Have Account`});
 
         await new User(bodyData).save();
 
