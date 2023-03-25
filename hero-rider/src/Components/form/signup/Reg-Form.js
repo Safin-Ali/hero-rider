@@ -10,6 +10,7 @@ import { UserData } from '../../../context/User.Context';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingButton from '../../Button/Loading.Button';
+import LoaderAnim from '../../Loader/Loader.Anim';
 
 function RegForm() {
 
@@ -27,7 +28,7 @@ function RegForm() {
 
   const { type } = useParams();
 
-  if (load) return;
+  if (load) return <LoaderAnim></LoaderAnim>;
 
   if (userActiveData) return <Navigate to={`/`} replace={true}></Navigate>
 
