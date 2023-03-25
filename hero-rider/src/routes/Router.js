@@ -5,6 +5,7 @@ import RegForm from '../Components/form/signup/Reg-Form';
 import PaymentModal from '../Components/Modal/Payment.Modal';
 import DashTable from '../Components/Table/Dash.Table';
 import SignUpOption from '../pages/auth/Type-Option-Box';
+import UnAuthorized from '../pages/Error/UnAuthorized';
 import MainPage from '../pages/main/Main.Page';
 import UserRolePrivate from '../pages/private/User.Role.Private';
 
@@ -13,6 +14,7 @@ function Router () {
  return (
     <BrowserRouter>
         <Routes>
+          <Route path={`/*`} element={<UnAuthorized></UnAuthorized>}></Route>
             <Route path={`/`} element={<MainPage/>}>
               <Route index element={<UserRolePrivate/>}/>
               <Route path={`/leasson`} element={<PaymentModal/>}/>

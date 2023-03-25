@@ -4,10 +4,10 @@
 
 @layer components {
     .modal-container{
-        @apply fixed w-[30%] duration-[700ms] bg-white z-[10] shadow h-[70%] rounded-3xl mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+        @apply fixed w-[90%] sm:w-[50%] md:w-[30%] duration-[700ms] bg-[#f1f2f3] shadow-black/40 shadow-[0px_20px_50px] z-[101] h-[90%] rounded-3xl mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
     }
     .modal-blur{
-        @apply bg-black/50 w-full h-screen top-0 left-0 fixed z-[9]
+        @apply bg-black/20 w-full h-screen top-0 left-0 fixed z-[9]
     }
 
     .input-label{

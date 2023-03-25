@@ -4,7 +4,7 @@
 
 @layer components {
     .card-container{
-        @apply bg-white capitalize shadow-md px-3 pt-3 pb-2 rounded-xl ;
+        @apply bg-white w-[90%] sm:w-full mx-auto capitalize shadow-md px-3 pt-3 pb-2 rounded-xl ;
     }
     .card-thumb{
         @apply bg-cover relative w-full h-[180px] rounded-lg;

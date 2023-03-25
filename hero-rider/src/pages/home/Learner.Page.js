@@ -7,6 +7,7 @@ import PaymentModal from '../../Components/Modal/Payment.Modal';
 import { UserData } from '../../context/User.Context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PackageCardSkeleton from '../../Components/card/Package.Card.Skeleton';
 
 function LearnerPage() {
 
@@ -45,10 +46,13 @@ function LearnerPage() {
 
   return (
     <>
-      <section className={`container mx-3 md:mx-auto my-5`}>
+      <section className={`container px-3 mx-auto md:px-0 my-5`}>
         <div className={learnerStyle['learner-container']}>
           {
-            data?.map(obj => <CoursePackageCard callback={modalDispatch} key={obj._id} data={obj}></CoursePackageCard>)
+            !data ?
+             [...Array(4).keys()].map(idx => <PackageCardSkeleton key={idx}></PackageCardSkeleton>)
+             :
+              data?.map(obj => <CoursePackageCard callback={modalDispatch} key={obj._id} data={obj}></CoursePackageCard>)
           }
         </div>
       </section>

@@ -21,7 +21,7 @@ function TableRow({ data,onCheck, allMark}) {
         if(allMark) setCheck(true);
         if(!allMark) setCheck(false);
         return () => {}
-    },[allMark])
+    },[allMark]);
 
     return (
         <tr className={tableStyle['table-row']}>

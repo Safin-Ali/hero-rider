@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useGetData from '../../hooks/use.get.data';
 import getAuthToken from '../../hooks/get.Auth.Token';
 import PaginationWrapper from '../../Components/pagination/Pagination.Wrapper';
+import LoaderAnim from '../../Components/Loader/Loader.Anim';
 
 function AdminPage() {
 
@@ -36,7 +37,7 @@ function AdminPage() {
 
   if (userActiveData.userRole !== 'admin') return navigate(`/*`);
 
-  if (!usersData) return <p>loading</p>
+  if (!usersData) return <LoaderAnim></LoaderAnim>
 
   const handleAgeFilter = (e) => {
     const targetVal = e.target.value.split('-');
@@ -46,14 +47,16 @@ function AdminPage() {
     return setReFetch(!reFetch);
   };
 
-  const handleSearchFeild = () => {
-
+  const handleSearchFeild = (event) => {
+    const value = event.target.value;
+    setQueryObj({...queryObj,search:value});
+    return setReFetch(!reFetch);
   }
 
   return (
     <>
-      <section className={`container sm:rounded-t-lg shadow-md h-[calc(100vh-105px)] pb-3 overflow-hidden mx-auto my-5`}>
-        <DashTable handleAgeFilter={handleAgeFilter} callback={() => setReFetch(!reFetch)} data={usersData?.users}></DashTable>
+      <section className={`container bg-gray-50 sm:rounded-t-lg shadow-md h-[calc(100vh-105px)] pb-3 overflow-hidden mx-auto my-5`}>
+        <DashTable handleAgeFilter={handleAgeFilter} handleSearchFeild={handleSearchFeild} callback={() => setReFetch(!reFetch)} data={usersData?.users}></DashTable>
       </section>
       <ToastContainer
         position="top-center"

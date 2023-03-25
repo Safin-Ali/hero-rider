@@ -21,9 +21,9 @@ function SignUpOption() {
   return (
     <section className={typeOptionBox['container']}>
 
-      <h3 className={`font-bold text-4xl my-4 capitalize`}>join as ... </h3>
+      <h3 className={`font-bold text-4xl my-4 capitalize text-purple-600`}>join as ... </h3>
 
-      <div className={`flex justify-center items-center gap-10`}>
+      <div className={`flex flex-col lg:flex-row justify-center items-center gap-10`}>
 
         <div onClick={() => handleNavigate('rider')} onMouseOver={() => setFirstOption(!firstOption)} onMouseLeave={() => setFirstOption(!firstOption)} className={typeOptionBox['parent-box']}>
           <div className={`w-[50%] pointer-events-none`}>

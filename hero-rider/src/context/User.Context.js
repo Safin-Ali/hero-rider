@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getCookieValue } from '../hooks/find-cookie';
 import instance from '../api/axios.config';
 import { createRfcTime } from '../hooks/rfc.time.format';
-import { Navigate } from 'react-router-dom';
+import { Navigate,} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export const UserData = createContext();
@@ -73,13 +73,13 @@ function UserContext ({children}) {
   };
 
   useEffect(()=>{
+
     instance.get(`/user-persist`,{headers: {authorization}})
     .then(res => {
       setUserActiveData(res.data);
       return setLoaded(false);
     })
     .catch(err => {
-      notifyError(err.message);
       setLoaded(false);
       return <Navigate to={'/login'}></Navigate>
     })
@@ -96,7 +96,7 @@ function UserContext ({children}) {
     notifySuccess,
     render,
     notifyWarning
-  }
+  };
 
  return (
   <UserData.Provider value={userDataObj}>

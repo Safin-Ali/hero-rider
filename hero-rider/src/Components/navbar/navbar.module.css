@@ -4,18 +4,25 @@
 
 @layer components {
     .header-container{
-        @apply w-full shadow-md h-16
+        @apply w-full relative shadow-md h-16
     }
     .nav-container{
-        @apply flex items-center justify-between h-full container mx-auto
+        @apply flex items-center justify-between h-full container px-3 md:px-0 md:mx-auto
     }
     .nav-container h4{
         @apply text-3xl font-bold
     }
     .user-avatar{
-        @apply w-10 bg-cover bg-center bg-no-repeat mr-10 relative cursor-pointer h-10 align-middle rounded-full border-2 border-gray-500/20
+        @apply w-10 bg-cover bg-center bg-no-repeat md:mr-10 relative cursor-pointer h-10 align-middle rounded-full border-2 border-gray-500/20
     }
     .nav-item{
-        @apply mx-3 px-2 pt-1 pb-1.5 bg-center text-purple-600 rounded-full font-semibold hover:bg-purple-600 hover:text-white;
+        @apply block text-center md:inline-block border md:border-0 my-3 mx-3 px-2 pt-1 transition-all duration-200 ease-in-out pb-1.5 bg-center text-purple-600 rounded-full font-semibold hover:bg-purple-600 hover:text-white;
+    }
+    .nav-link-container{
+        @apply absolute transition-all duration-300 opacity-0 invisible md:opacity-100 md:visible z-[100] md:static top-16 right-5 px-10 py-5 rounded-lg bg-white md:bg-inherit shadow md:flex md:shadow-none items-center gap-x-3
+    }
+
+    .res-nav-expand{
+        @apply visible opacity-100
     }
 }
